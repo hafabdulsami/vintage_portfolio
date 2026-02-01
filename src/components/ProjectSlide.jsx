@@ -8,7 +8,7 @@ export const ProjectSlide = ({ project, index }) => {
     }
   };
   return (
-    <section className="relative min-h-screen flex items-center mt-64 mb-2 md:mt-0 justify-center px-4 md:px-6 pt-20 md:pt-32">
+    <section className="relative w-full px-4 md:px-6 py-8 md:py-12 flex items-center justify-center">
       <div className="max-w-6xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

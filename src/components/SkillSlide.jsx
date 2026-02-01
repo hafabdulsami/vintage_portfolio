@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export const SkillSlide = ({ skill, index }) => {
   return (
-    <section className="relative min-h-screen mt-36 md:mt-0 flex items-center justify-center px-4 md:px-6 pt-20 md:pt-32">
+    <section className="relative min-h-screen pb-20 md:pb-0 flex items-center justify-center px-4 md:px-6 pt-20 md:pt-32">
       <div className="max-w-6xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

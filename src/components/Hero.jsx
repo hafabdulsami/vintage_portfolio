@@ -69,7 +69,7 @@ export const Hero = () => {
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-screen mt-36 md:mt-0 flex items-center justify-center overflow-hidden pt-20 md:pt-32 scroll-mt-24"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-32 scroll-mt-24"
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20 relative z-10">
         {/* Unique asymmetric layout */}
