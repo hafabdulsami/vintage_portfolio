@@ -43,32 +43,44 @@ function App() {
   useEffect(() => {
     // Skip GSAP on Safari mobile
     if (isSafariMobile) return;
-    // Wait for DOM to be ready
-    const timer = setTimeout(() => {
-      const sections = gsap.utils.toArray(".horizontal-section");
 
-      if (sections.length > 0) {
-        ScrollTrigger.create({
-          trigger: ".horizontal-wrapper",
-          pin: true,
-          scrub: 1,
-          snap: 1 / (sections.length - 1),
-          end: () =>
-            "+=" + (containerRef.current.scrollWidth - window.innerWidth),
-          onUpdate: (self) => {
-            gsap.to(containerRef.current, {
-              x:
-                -self.progress *
-                (containerRef.current.scrollWidth - window.innerWidth),
-              duration: 0,
-            });
-          },
-        });
-      }
-    }, 100);
+    let currentX = 0;
+
+    // Desktop: Horizontal wheel scroll
+    const handleWheelScroll = (e) => {
+      e.preventDefault();
+
+      const container = containerRef.current;
+      if (!container) return;
+
+      const maxScroll = container.scrollWidth - window.innerWidth;
+
+      // Use horizontal wheel or shift+wheel for horizontal scroll
+      const deltaX = e.deltaX || (e.shiftKey ? e.deltaY : 0);
+      const deltaY = e.shiftKey ? 0 : e.deltaY;
+
+      // Prefer horizontal wheel movement, fallback to vertical with shift
+      const scrollDelta = deltaX || deltaY;
+
+      currentX += scrollDelta;
+      currentX = Math.max(0, Math.min(currentX, maxScroll));
+
+      gsap.to(container, {
+        x: -currentX,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    };
+
+    const wrapper = document.querySelector(".horizontal-wrapper");
+    if (wrapper) {
+      wrapper.addEventListener("wheel", handleWheelScroll, { passive: false });
+    }
 
     return () => {
-      clearTimeout(timer);
+      if (wrapper) {
+        wrapper.removeEventListener("wheel", handleWheelScroll);
+      }
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, [isSafariMobile]);
@@ -127,9 +139,12 @@ function App() {
             </div>
           </div>
         ) : (
-          // Desktop & other browsers: GSAP horizontal scroll
-          <div className="horizontal-wrapper overflow-hidden">
-            <div ref={containerRef} className="flex will-change-transform">
+          // Desktop & other browsers: Horizontal wheel scroll
+          <div className="horizontal-wrapper overflow-hidden h-screen">
+            <div
+              ref={containerRef}
+              className="flex will-change-transform h-full"
+            >
               <div className="horizontal-section flex-shrink-0 w-screen h-screen overflow-y-auto no-scrollbar">
                 <Hero />
               </div>
