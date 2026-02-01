@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -22,8 +22,27 @@ gsap.registerPlugin(ScrollTrigger);
 // Main App Component
 function App() {
   const containerRef = useRef(null);
+  const [isSafariMobile, setIsSafariMobile] = useState(false);
 
   useEffect(() => {
+    // Detect Safari mobile specifically
+    const detectSafariMobile = () => {
+      const ua = navigator.userAgent;
+      const isSafari =
+        /Safari/.test(ua) && !/Chrome/.test(ua) && !/Edge/.test(ua);
+      const isMobile =
+        /iPhone|iPad|iPod/.test(ua) ||
+        (navigator.maxTouchPoints &&
+          navigator.maxTouchPoints > 2 &&
+          /MacIntel/.test(navigator.platform));
+      setIsSafariMobile(isSafari && isMobile);
+    };
+    detectSafariMobile();
+  }, []);
+
+  useEffect(() => {
+    // Skip GSAP on Safari mobile
+    if (isSafariMobile) return;
     // Wait for DOM to be ready
     const timer = setTimeout(() => {
       const sections = gsap.utils.toArray(".horizontal-section");
@@ -52,7 +71,7 @@ function App() {
       clearTimeout(timer);
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, []);
+  }, [isSafariMobile]);
 
   return (
     <div className="bg-[#2a2520] text-vintage-cream">
@@ -67,39 +86,80 @@ function App() {
         <Navigation />
 
         {/* Horizontal scrolling wrapper */}
-        <div className="horizontal-wrapper overflow-hidden">
-          <div ref={containerRef} className="flex will-change-transform ">
-            <div className="horizontal-section flex-shrink-0 w-screen h-screen overflow-y-auto no-scrollbar">
-              <Hero />
-            </div>
-
-            {/* Individual Project Slides */}
-            {projectsData.map((project, index) => (
-              <div
-                key={index}
-                id={index === 0 ? "projects" : undefined}
-                className="horizontal-section flex-shrink-0 w-screen h-screen overflow-y-auto no-scrollbar"
-              >
-                <ProjectSlide project={project} index={index} />
+        {isSafariMobile ? (
+          // Safari Mobile: Native horizontal scroll
+          <div
+            className="horizontal-wrapper overflow-x-scroll overflow-y-hidden h-screen snap-x snap-mandatory"
+            style={{
+              WebkitOverflowScrolling: "touch",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            <div className="flex h-full" style={{ width: "max-content" }}>
+              <div className="flex-shrink-0 w-screen h-screen snap-start overflow-y-auto">
+                <Hero />
               </div>
-            ))}
 
-            {/* Individual Skill Category Slides */}
-            {skillsData.map((skill, index) => (
-              <div
-                key={index}
-                id={index === 0 ? "skills" : undefined}
-                className="horizontal-section flex-shrink-0 w-screen h-screen overflow-y-auto no-scrollbar"
-              >
-                <SkillSlide skill={skill} index={index} />
+              {projectsData.map((project, index) => (
+                <div
+                  key={index}
+                  id={index === 0 ? "projects" : undefined}
+                  className="flex-shrink-0 w-screen h-screen snap-start overflow-y-auto"
+                >
+                  <ProjectSlide project={project} index={index} />
+                </div>
+              ))}
+
+              {skillsData.map((skill, index) => (
+                <div
+                  key={index}
+                  id={index === 0 ? "skills" : undefined}
+                  className="flex-shrink-0 w-screen h-screen snap-start overflow-y-auto"
+                >
+                  <SkillSlide skill={skill} index={index} />
+                </div>
+              ))}
+
+              <div className="flex-shrink-0 w-screen min-h-screen snap-start overflow-y-auto">
+                <Contact />
               </div>
-            ))}
-
-            <div className="horizontal-section flex-shrink-0 w-screen min-h-screen">
-              <Contact />
             </div>
           </div>
-        </div>
+        ) : (
+          // Desktop & other browsers: GSAP horizontal scroll
+          <div className="horizontal-wrapper overflow-hidden">
+            <div ref={containerRef} className="flex will-change-transform">
+              <div className="horizontal-section flex-shrink-0 w-screen h-screen overflow-y-auto no-scrollbar">
+                <Hero />
+              </div>
+
+              {projectsData.map((project, index) => (
+                <div
+                  key={index}
+                  id={index === 0 ? "projects" : undefined}
+                  className="horizontal-section flex-shrink-0 w-screen h-screen overflow-y-auto no-scrollbar"
+                >
+                  <ProjectSlide project={project} index={index} />
+                </div>
+              ))}
+
+              {skillsData.map((skill, index) => (
+                <div
+                  key={index}
+                  id={index === 0 ? "skills" : undefined}
+                  className="horizontal-section flex-shrink-0 w-screen h-screen overflow-y-auto no-scrollbar"
+                >
+                  <SkillSlide skill={skill} index={index} />
+                </div>
+              ))}
+
+              <div className="horizontal-section flex-shrink-0 w-screen min-h-screen">
+                <Contact />
+              </div>
+            </div>
+          </div>
+        )}
 
         <footer className="relative py-6 md:py-8 px-4 md:px-6 border-t-2 border-primary/30 z-20">
           <div className="max-w-7xl mx-auto text-center text-vintage-beige font-display text-sm md:text-base">
