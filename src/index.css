@@ -6,8 +6,31 @@ body {
   margin: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  background: #2a2520;
+  background: #2C2219;
   color: #f5e6d3;
+  position: relative;
+}
+
+/* Noise/grain texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAABOFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABXJQ2jAAAAZ3RSTlMAAQIDBAUGBwgJCgsMDg8QERIUFRYXGBkaHB0fICEiJCYnKSorLC4vMDEyMzQ1Nzg5Ojs8PT4/QEFCQ0RFR0hJSktMTU5PUFFSVVdYWVpbXF1eX2BhYmNkZWZnaGlqbG1ub3Bxc3R1doLBN48AAAGGSURBVHjafdTpVsJADAXgAhYBRQRBBXdxX3Dfd933fd/9/e/AfJlOLTPJOcn/e5PbTCqVJH8akx+t8UBvKtn68PXVJ2ek/r6+sAcJ1djc2VJQdX7hhJw4pKb7qloWkKvH5KjUKSC3D7cWqiEBuX1IzldDAjJ0SCDQjyMC8uOAgHw9EpCnJwL0+8RAoB5JApr8YlJALp4o4K9vgoA8PVaQvaMM5O+xB/3oFBDOl8jBfV8DAXlzpiA/jggomLMFfOBjIIDe+uCIH/+AOH95rYJBH0rUzL4OBOSOGeNGN+OGCja0rIJ+HxOQW8dE9BPU0VwuOoU5cGbC+GdL/JqIkB+X1LxGUdA/KZdOTTpAB1cpKIyj4n455YE9MMpAbZ/k8tnD3ZFWIT+u0XEvRFiILdu5JBv0EU8PZKB0cEBPvZroEe3hLw10eKOKw7zSD/jjHoRxcE9OeVAH2dZSDvThXw2zsJvfROQD9MC+jFQxH9diYgz6clRGf3RPT0lIA8PCKB8/gFGtaCiYEVJuoAAAAASUVORK5CYII=");
+  background-repeat: repeat;
+}
+
+/* Vignette effect */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
 }
 
 html {
@@ -66,7 +89,7 @@ canvas {
 }
 
 ::-webkit-scrollbar-track {
-  background: #2a2520;
+  background: #2C2219;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -90,4 +113,22 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* RTL support */
+[dir="rtl"] .bg-gradient-to-r {
+  --tw-gradient-from-position: ;
+  --tw-gradient-to-position: ;
+}
+
+[dir="rtl"] .group-hover\:translate-x-0 {
+  --tw-translate-x: 0px;
+}
+
+[dir="rtl"] .-translate-x-full {
+  --tw-translate-x: 100%;
+}
+
+[dir="rtl"] .origin-left {
+  transform-origin: right;
 }

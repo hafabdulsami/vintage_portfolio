@@ -1,6 +1,6 @@
-export const skillsData = [
+export const getSkillsData = (t) => [
   {
-    category: "Frontend",
+    category: t("skills.frontend"),
     items: [
       "React",
       "Next.js",
@@ -10,10 +10,10 @@ export const skillsData = [
       "Nuxt 3",
       "TypeScript",
     ],
-    icon: "⚛️",
+    icon: "</>",
   },
   {
-    category: "Backend",
+    category: t("skills.backend"),
     items: [
       "Node.js",
       "Express",
@@ -22,16 +22,16 @@ export const skillsData = [
       "GraphQL",
       "REST APIs",
     ],
-    icon: "⚙️",
+    icon: "{ }",
   },
   {
-    category: "Database",
+    category: t("skills.database"),
     items: ["PostgreSQL", "MongoDB", "Redis", "Prisma", "Drizzle", "MySQL"],
-    icon: "🗄️",
+    icon: ">>",
   },
   {
-    category: "Tools & DevOps",
+    category: t("skills.toolsDevops"),
     items: ["Git", "Docker", "AWS", "Vercel", "CI/CD", "Jest", "Playwright"],
-    icon: "🛠️",
+    icon: "//",
   },
 ];

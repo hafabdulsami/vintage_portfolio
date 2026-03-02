@@ -4,7 +4,7 @@ import React from "react";
 export const AnimatedGrid = () => {
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#3a3028] via-[#2a2520] to-[#3a3028]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#3B2F22] via-[#2C2219] to-[#3B2F22]" />
       {/* Vintage paper texture pattern */}
       <div
         className="absolute inset-0 opacity-10"

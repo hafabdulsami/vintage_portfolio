@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,24 +12,36 @@ import { Hero } from "./components/Hero";
 import { ProjectSlide } from "./components/ProjectSlide";
 import { SkillSlide } from "./components/SkillSlide";
 import { Contact } from "./components/Contact";
+import { LanguageSwitcher } from "./components/LanguageSwitcher";
 
 // Import data
-import { projectsData } from "./data/projectsData";
-import { skillsData } from "./data/skillsData";
+import { getProjectsData } from "./data/projectsData";
+import { getSkillsData } from "./data/skillsData";
+
+// Import language hook
+import { useLanguage } from "./i18n/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 // Main App Component
 function App() {
+  const { t, language, dir } = useLanguage();
   const containerRef = useRef(null);
   const mobileContainerRef = useRef(null);
   const [isSafariMobile, setIsSafariMobile] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
   const touchEndX = useRef(0);
+  const isVerticalScroll = useRef(false);
   const [swipeOffset, setSwipeOffset] = useState(0);
   const [showSwipeHint, setShowSwipeHint] = useState(true);
+
+  const projectsData = useMemo(() => getProjectsData(t), [t]);
+  const skillsData = useMemo(() => getSkillsData(t), [t]);
+
+  const totalSlides = 1 + projectsData.length + skillsData.length + 1;
 
   useEffect(() => {
     // Detect mobile and Safari mobile
@@ -53,44 +65,60 @@ function App() {
     return () => window.removeEventListener("resize", detectMobile);
   }, []);
 
-  // Mobile swipe navigation
+  // Mobile swipe navigation — only intercepts horizontal swipes,
+  // vertical touch movement is left to native scroll inside each slide
   useEffect(() => {
     if (!isMobile) return;
 
-    const totalSlides = 1 + projectsData.length + skillsData.length + 1;
-
     const handleTouchStart = (e) => {
       touchStartX.current = e.touches[0].clientX;
+      touchStartY.current = e.touches[0].clientY;
+      touchEndX.current = e.touches[0].clientX;
+      isVerticalScroll.current = false;
       setShowSwipeHint(false);
     };
 
     const handleTouchMove = (e) => {
+      const dx = e.touches[0].clientX - touchStartX.current;
+      const dy = e.touches[0].clientY - touchStartY.current;
+
+      // Once we decide it's vertical, let native scroll handle it
+      if (!isVerticalScroll.current && Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 10) {
+        isVerticalScroll.current = true;
+      }
+
+      if (isVerticalScroll.current) return;
+
+      // Horizontal drag — prevent native scroll and show preview
+      e.preventDefault();
       touchEndX.current = e.touches[0].clientX;
-      const diff = touchStartX.current - e.touches[0].clientX;
-      setSwipeOffset(-diff * 0.3); // Show drag preview
+      setSwipeOffset(-dx * 0.3);
     };
 
     const handleTouchEnd = () => {
+      if (isVerticalScroll.current) {
+        setSwipeOffset(0);
+        return;
+      }
+
       const swipeThreshold = 50;
       const diff = touchStartX.current - touchEndX.current;
 
       if (Math.abs(diff) > swipeThreshold) {
         if (diff > 0 && currentSlide < totalSlides - 1) {
-          // Swipe left - next slide
           setCurrentSlide(currentSlide + 1);
         } else if (diff < 0 && currentSlide > 0) {
-          // Swipe right - previous slide
           setCurrentSlide(currentSlide - 1);
         }
       }
-      setSwipeOffset(0); // Reset offset
+      setSwipeOffset(0);
     };
 
     const container = mobileContainerRef.current;
     if (container) {
-      container.addEventListener("touchstart", handleTouchStart);
-      container.addEventListener("touchmove", handleTouchMove);
-      container.addEventListener("touchend", handleTouchEnd);
+      container.addEventListener("touchstart", handleTouchStart, { passive: true });
+      container.addEventListener("touchmove", handleTouchMove, { passive: false });
+      container.addEventListener("touchend", handleTouchEnd, { passive: true });
     }
 
     return () => {
@@ -100,7 +128,7 @@ function App() {
         container.removeEventListener("touchend", handleTouchEnd);
       }
     };
-  }, [isMobile, currentSlide, projectsData.length, skillsData.length]);
+  }, [isMobile, currentSlide, totalSlides]);
 
   // Animate mobile slide transitions
   useEffect(() => {
@@ -159,9 +187,10 @@ function App() {
   }, [isSafariMobile]);
 
   return (
-    <div className="bg-[#2a2520] text-vintage-cream">
+    <div dir={dir} className="bg-[#2C2219] text-vintage-cream">
       <AnimatedGrid />
       <CursorFollower />
+      <LanguageSwitcher />
 
       <motion.div
         initial={{ opacity: 0 }}
@@ -172,8 +201,8 @@ function App() {
 
         {/* Horizontal scrolling wrapper */}
         {isMobile ? (
-          // Mobile: Swipe navigation with page indicators
-          <div className="relative overflow-hidden h-screen">
+          // Mobile: Horizontal swipe with vertical scroll inside each slide
+          <div className="relative overflow-hidden" style={{ height: "100dvh" }}>
             {/* Swipe instruction hint */}
             {showSwipeHint && currentSlide === 0 && (
               <motion.div
@@ -183,7 +212,7 @@ function App() {
                 transition={{ delay: 1, duration: 0.5 }}
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-none"
               >
-                <div className="bg-[#2a2520]/90 backdrop-blur-md border-2 border-primary/30 rounded-lg px-6 py-4 text-center">
+                <div className="bg-[#2C2219]/90 backdrop-blur-md border-2 border-primary/50 rounded-lg px-6 py-4 text-center">
                   <div className="flex items-center gap-3 text-vintage-beige">
                     <motion.div
                       animate={{ x: [-10, 10, -10] }}
@@ -194,9 +223,9 @@ function App() {
                       }}
                       className="text-2xl"
                     >
-                      ← →
+                      &larr; &rarr;
                     </motion.div>
-                    <p className="font-display text-sm">Swipe to navigate</p>
+                    <p className="font-display text-sm">{t("swipe.hint")}</p>
                   </div>
                 </div>
               </motion.div>
@@ -204,21 +233,21 @@ function App() {
 
             <div
               ref={mobileContainerRef}
-              className="flex will-change-transform touch-pan-y overflow-hidden"
+              className="flex will-change-transform"
               style={{
-                width: `${(1 + projectsData.length + skillsData.length + 1) * 100}vw`,
-                height: "calc(100vh - var(--nav-h) - 4.5rem)",
+                width: `${totalSlides * 100}vw`,
+                height: "calc(100dvh - 4.5rem)",
               }}
             >
-              <div className="flex-shrink-0 w-screen h-screen overflow-y-auto">
+              {/* Each slide: fixed width, allows vertical overflow scroll */}
+              <div className="flex-shrink-0 w-screen overflow-y-auto">
                 <Hero />
               </div>
 
               {projectsData.map((project, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 w-screen overflow-y-auto pb-20 md:pb-0"
-                  style={{ height: "100vh" }}
+                  className="flex-shrink-0 w-screen overflow-y-auto"
                 >
                   <ProjectSlide project={project} index={index} />
                 </div>
@@ -228,14 +257,37 @@ function App() {
                 <div
                   key={index}
                   id={index === 0 ? "skills" : undefined}
-                  className="flex-shrink-0 w-screen h-screen overflow-y-auto"
+                  className="flex-shrink-0 w-screen overflow-y-auto"
                 >
                   <SkillSlide skill={skill} index={index} />
                 </div>
               ))}
 
-              <div className="flex-shrink-0 w-screen min-h-screen overflow-y-auto">
+              <div className="flex-shrink-0 w-screen overflow-y-auto">
                 <Contact />
+              </div>
+            </div>
+
+            {/* Page indicators */}
+            <div className="fixed bottom-0 left-0 right-0 bg-[#2C2219]/95 backdrop-blur-sm py-3 px-4 border-t-2 border-primary/50 z-30">
+              <div className="space-y-1.5">
+                <div className="flex justify-center gap-2">
+                  {Array.from({ length: totalSlides }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        currentSlide === index
+                          ? "bg-primary w-6"
+                          : "bg-vintage-beige/40"
+                      }`}
+                      aria-label={t("aria.goToSlide", { n: index + 1 })}
+                    />
+                  ))}
+                </div>
+                <p className="text-center text-vintage-beige/60 text-xs font-display">
+                  {t("swipe.instruction")}
+                </p>
               </div>
             </div>
           </div>
@@ -277,45 +329,15 @@ function App() {
           </div>
         )}
 
-        <footer
-          className={`py-4 md:py-6 px-4 md:px-6 border-t-2 border-primary/30 z-30 ${
-            isMobile
-              ? "fixed bottom-0 left-0 right-0 bg-[#2a2520]/95 backdrop-blur-sm"
-              : "relative"
-          }`}
-        >
-          <div className="max-w-7xl mx-auto">
-            {isMobile ? (
-              // Mobile: Page indicators with instruction
-              <div className="space-y-2">
-                <div className="flex justify-center gap-2">
-                  {Array.from({
-                    length: 1 + projectsData.length + skillsData.length + 1,
-                  }).map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentSlide(index)}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        currentSlide === index
-                          ? "bg-primary w-6"
-                          : "bg-vintage-beige/40"
-                      }`}
-                      aria-label={`Go to slide ${index + 1}`}
-                    />
-                  ))}
-                </div>
-                <p className="text-center text-vintage-beige/60 text-xs font-display">
-                  Swipe left or right • Tap dots to jump
-                </p>
-              </div>
-            ) : (
-              // Desktop: Copyright text
+        {!isMobile && (
+          <footer className="py-4 md:py-6 px-4 md:px-6 border-t-2 border-primary/50 z-30 relative">
+            <div className="max-w-7xl mx-auto">
               <div className="text-center text-vintage-beige font-display text-sm md:text-base">
-                <p>© 2024 - Scroll Down for Vintage Vibes →</p>
+                <p>{t("footer.text")} &rarr;</p>
               </div>
-            )}
-          </div>
-        </footer>
+            </div>
+          </footer>
+        )}
       </motion.div>
     </div>
   );

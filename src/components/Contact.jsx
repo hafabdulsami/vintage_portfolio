@@ -1,7 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "../i18n/LanguageContext";
 
 export const Contact = () => {
+  const { t } = useLanguage();
+
   return (
     <section
       id="contact"
@@ -12,18 +15,17 @@ export const Contact = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
         >
           <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 md:mb-8 font-display">
-            <span className="text-vintage-cream">Let's Create </span>
+            <span className="text-vintage-cream">{t("contact.heading1")}</span>
             <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Together
+              {t("contact.heading2")}
             </span>
           </h2>
 
           <p className="text-base md:text-xl text-vintage-beige mb-8 md:mb-12 max-w-2xl mx-auto px-4">
-            Open to exciting projects and collaborations. Let's craft something
-            timeless!
+            {t("contact.subtitle")}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center mb-8 md:mb-12 px-4">
@@ -31,9 +33,9 @@ export const Contact = () => {
               href="mailto:abdulsami699@gmail.com"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 md:px-8 py-3 md:py-4 bg-primary text-[#2a2520] font-bold rounded-full hover:shadow-2xl hover:shadow-primary/50 transition-all border-2 border-vintage-orange font-display text-sm md:text-base"
+              className="px-6 md:px-8 py-3 md:py-4 bg-primary text-[#2C2219] font-bold rounded-md hover:shadow-2xl hover:shadow-primary/50 transition-all border-2 border-vintage-orange font-display text-sm md:text-base"
             >
-              📧 Email Me
+              {t("contact.emailMe")}
             </motion.a>
             <motion.a
               href="https://github.com/hafabdulsami"
@@ -41,9 +43,9 @@ export const Contact = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 md:px-8 py-3 md:py-4 border-2 border-primary text-primary font-bold rounded-full hover:bg-primary hover:text-[#2a2520] transition-all font-display text-sm md:text-base"
+              className="px-6 md:px-8 py-3 md:py-4 border-2 border-vintage-teal/50 text-vintage-teal font-bold rounded-md hover:bg-vintage-teal hover:text-[#2C2219] transition-all font-display text-sm md:text-base"
             >
-              💻 GitHub
+              {t("contact.github")}
             </motion.a>
           </div>
 
@@ -64,7 +66,7 @@ export const Contact = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -5 }}
-                className="text-vintage-beige hover:text-primary transition-colors text-base md:text-lg font-display"
+                className="text-vintage-beige hover:text-vintage-teal transition-colors text-base md:text-lg font-display"
               >
                 {social.label}
               </motion.a>

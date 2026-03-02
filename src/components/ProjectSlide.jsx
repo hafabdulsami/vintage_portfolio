@@ -1,12 +1,23 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "../i18n/LanguageContext";
 
 export const ProjectSlide = ({ project, index }) => {
+  const { t } = useLanguage();
+
   const handleProjectLink = () => {
     if (project.link) {
       window.open(project.link, "_blank");
     }
   };
+
+  // Alternate border colors for tech tags
+  const tagColors = [
+    "border-primary/50 text-primary",
+    "border-vintage-green/50 text-vintage-green",
+    "border-vintage-teal/50 text-vintage-teal",
+  ];
+
   return (
     <section className="relative w-full px-4 md:px-6 py-8 md:py-12 flex items-center justify-center">
       <div className="max-w-6xl mx-auto w-full">
@@ -14,19 +25,19 @@ export const ProjectSlide = ({ project, index }) => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1, ease: "easeInOut" }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
         >
           {/* Left - Project Info */}
-          <div className="space-y-4 md:space-y-6 text-center lg:text-left">
+          <div className="space-y-4 md:space-y-6 text-center lg:text-start">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.2, ease: "easeInOut" }}
             >
               <span className="text-primary font-display text-base md:text-lg">
-                Project {index + 1} / 5
+                {t("project.counter", { n: index + 1 })}
               </span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-vintage-cream mt-3 md:mt-4 mb-4 md:mb-6 font-display">
                 {project.title}
@@ -45,7 +56,7 @@ export const ProjectSlide = ({ project, index }) => {
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 + i * 0.1 }}
                   whileHover={{ scale: 1.1, y: -3 }}
-                  className="px-3 md:px-4 py-1.5 md:py-2 bg-[#3a3028] border-2 border-primary rounded-lg text-primary font-medium cursor-pointer font-display text-sm md:text-base"
+                  className={`px-3 md:px-4 py-1.5 md:py-2 bg-[#3B2F22] border-2 ${tagColors[i % tagColors.length]} rounded-md font-medium cursor-pointer font-display text-sm md:text-base`}
                 >
                   {tech}
                 </motion.span>
@@ -53,13 +64,13 @@ export const ProjectSlide = ({ project, index }) => {
             </div>
 
             <div className="flex gap-8 md:gap-12 mb-6 md:mb-8 justify-center lg:justify-start">
-              {Object.entries(project.stats).map(([key, value]) => (
-                <div key={key}>
+              {project.stats.map((stat) => (
+                <div key={stat.label}>
                   <div className="text-2xl md:text-3xl font-bold text-primary font-display">
-                    {value}
+                    {stat.value}
                   </div>
                   <div className="text-xs md:text-sm text-vintage-brown uppercase font-display mt-1">
-                    {key}
+                    {stat.label}
                   </div>
                 </div>
               ))}
@@ -69,9 +80,9 @@ export const ProjectSlide = ({ project, index }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleProjectLink}
-              className="px-6 md:px-8 py-3 md:py-4 bg-primary text-[#2a2520] font-bold rounded-full hover:shadow-2xl hover:shadow-primary/50 transition-all border-2 border-vintage-orange font-display text-sm md:text-base"
+              className="px-6 md:px-8 py-3 md:py-4 bg-primary text-[#2C2219] font-bold rounded-md hover:shadow-2xl hover:shadow-primary/50 transition-all border-2 border-vintage-orange font-display text-sm md:text-base"
             >
-              View Live Project →
+              {t("project.viewLive")} &rarr;
             </motion.button>
           </div>
 
@@ -80,23 +91,23 @@ export const ProjectSlide = ({ project, index }) => {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 0.4, ease: "easeInOut" }}
             className="relative order-first lg:order-last"
           >
             {project.image ? (
-              <div className="relative rounded-xl md:rounded-2xl overflow-hidden shadow-2xl border-2 md:border-4 border-vintage-cream/20">
+              <div className="relative rounded-lg overflow-hidden shadow-2xl border-2 md:border-4 border-vintage-cream/20">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-auto object-cover rounded-xl md:rounded-2xl"
+                  className="w-full h-auto object-cover rounded-lg"
                 />
               </div>
             ) : (
               <div
-                className={`relative bg-gradient-to-br ${project.gradient} rounded-xl md:rounded-2xl p-6 md:p-12 shadow-2xl border-2 md:border-4 border-vintage-cream/20 min-h-[250px] md:min-h-[400px] flex items-center justify-center`}
+                className={`relative bg-gradient-to-br ${project.gradient} rounded-lg p-6 md:p-12 shadow-2xl border-2 md:border-4 border-vintage-cream/20 min-h-[250px] md:min-h-[400px] flex items-center justify-center`}
               >
                 <div className="text-center">
-                  <div className="text-5xl md:text-8xl mb-3 md:mb-4">🎨</div>
+                  <div className="text-5xl md:text-8xl mb-3 md:mb-4 font-display font-bold text-vintage-cream/80">#</div>
                   <div className="text-lg md:text-2xl font-bold text-white font-display">
                     {project.title}
                   </div>

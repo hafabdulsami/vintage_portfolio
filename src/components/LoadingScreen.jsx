@@ -30,12 +30,12 @@ export const LoadingScreen = ({ onComplete }) => {
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 md:mb-8 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-6xl font-bold mb-6 md:mb-8 bg-gradient-to-r from-primary via-vintage-teal to-secondary bg-clip-text text-transparent font-display">
           {progress}%
         </h1>
         <div className="w-48 md:w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-gradient-to-r from-primary to-secondary"
+            className="h-full bg-gradient-to-r from-primary via-vintage-teal to-secondary"
             style={{ width: `${progress}%` }}
           />
         </div>
