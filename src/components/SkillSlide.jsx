@@ -10,8 +10,42 @@ const categoryColors = [
   "text-vintage-rose",
 ];
 
-// ASCII symbols to replace emojis in skill cards
-const skillSymbols = ["//", ">>", "*", "#"];
+// Vintage symbols mapped to each technology
+const skillIcons = {
+  // Frontend — view/display related symbols
+  "React":       "⚛",   // atom — React's core concept
+  "Next.js":     "▲",   // triangle — Vercel/Next identity
+  "Svelte":      "✦",   // star — lightweight elegance
+  "SvelteKit":   "✧",   // open star — kit variant
+  "Vue 3":       "◆",   // diamond — Vue's angular shape
+  "Nuxt 3":      "▽",   // inverted triangle — Nuxt
+  "TypeScript":  "◈",   // diamond dot — typed/structured
+
+  // Backend — process/flow symbols
+  "Node.js":     "⬡",   // hexagon — Node.js logo
+  "Express":     "→",   // arrow — routing
+  "Feathers.js": "❧",   // floral heart — feather
+  "tRPC":        "⇌",   // bidirectional — type-safe calls
+  "GraphQL":     "◉",   // target — graph queries
+  "REST APIs":   "↔",   // exchange — request/response
+
+  // Database — storage/structure symbols
+  "PostgreSQL":  "⊞",   // grid — relational tables
+  "MongoDB":     "{ }",  // braces — document store
+  "Redis":       "⚡",   // lightning — speed/cache
+  "Prisma":      "△",   // triangle — Prisma logo
+  "Drizzle":     "≋",   // waves — drizzle/water
+  "MySQL":       "⊟",   // grid — relational
+
+  // Tools & DevOps — operation symbols
+  "Git":         "⑂",   // branch — version control
+  "Docker":      "▣",   // container — containerization
+  "AWS":         "☁",   // cloud — cloud services
+  "Vercel":      "▲",   // triangle — Vercel
+  "CI/CD":       "∞",   // infinity — continuous loop
+  "Jest":        "✓",   // check — testing
+  "Playwright":  "▶",   // play — automation
+};
 
 export const SkillSlide = ({ skill, index }) => {
   const { t } = useLanguage();
@@ -71,7 +105,7 @@ export const SkillSlide = ({ skill, index }) => {
 
                 <div className="relative z-10">
                   <div className="text-xl md:text-2xl mb-2 md:mb-3 font-display font-bold text-vintage-teal">
-                    {skillSymbols[i % 4]}
+                    {skillIcons[item] || "◇"}
                   </div>
                   <p className="text-vintage-cream font-bold font-display text-sm md:text-lg mb-2">
                     {item}

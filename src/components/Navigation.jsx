@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
 
-export const Navigation = () => {
+export const Navigation = ({ onNavigate }) => {
   const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { label: t("nav.home"), href: "#home" },
-    { label: t("nav.projects"), href: "#projects" },
-    { label: t("nav.skills"), href: "#skills" },
-    { label: t("nav.contact"), href: "#contact" },
+    { label: t("nav.home"), section: "home" },
+    { label: t("nav.projects"), section: "projects" },
+    { label: t("nav.skills"), section: "skills" },
+    { label: t("nav.contact"), section: "contact" },
   ];
 
   useEffect(() => {
@@ -42,15 +42,15 @@ export const Navigation = () => {
 
         <div className="hidden md:flex gap-8">
           {navItems.map((item) => (
-            <motion.a
-              key={item.href}
-              href={item.href}
-              className="text-vintage-beige hover:text-primary transition-colors relative group font-display"
+            <motion.button
+              key={item.section}
+              onClick={() => onNavigate?.(item.section)}
+              className="text-vintage-beige hover:text-primary transition-colors relative group font-display cursor-pointer"
               whileHover={{ y: -2 }}
             >
               {item.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
-            </motion.a>
+            </motion.button>
           ))}
         </div>
 
@@ -88,13 +88,15 @@ export const Navigation = () => {
           </motion.div>
         </button>
 
-        <motion.button
+        <motion.a
+          href="/resume.pdf"
+          download="Abdul Sami Resume - Full Stack Engineer.pdf"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="hidden md:block px-6 py-2 bg-primary text-[#2C2219] font-semibold rounded-md hover:shadow-lg hover:shadow-primary/50 transition-all border-2 border-primary font-display"
         >
           {t("nav.hireMe")}
-        </motion.button>
+        </motion.a>
       </div>
 
       {/* Mobile Menu Overlay */}
@@ -109,19 +111,23 @@ export const Navigation = () => {
           >
             <div className="flex flex-col items-center py-6 gap-6">
               {navItems.map((item, i) => (
-                <motion.a
-                  key={item.href}
-                  href={item.href}
+                <motion.button
+                  key={item.section}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-vintage-beige hover:text-primary transition-colors text-lg font-display"
+                  onClick={() => {
+                    onNavigate?.(item.section);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="text-vintage-beige hover:text-primary transition-colors text-lg font-display cursor-pointer"
                 >
                   {item.label}
-                </motion.a>
+                </motion.button>
               ))}
-              <motion.button
+              <motion.a
+                href="/resume.pdf"
+                download="Abdul Sami Resume - Full Stack Engineer.pdf"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
@@ -129,7 +135,7 @@ export const Navigation = () => {
                 className="px-6 py-2 bg-primary text-[#2C2219] font-semibold rounded-md border-2 border-primary font-display"
               >
                 {t("nav.hireMe")}
-              </motion.button>
+              </motion.a>
             </div>
           </motion.div>
         )}

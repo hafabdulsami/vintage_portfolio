@@ -35,6 +35,7 @@ export const Contact = () => {
               whileTap={{ scale: 0.95 }}
               className="px-6 md:px-8 py-3 md:py-4 bg-primary text-[#2C2219] font-bold rounded-md hover:shadow-2xl hover:shadow-primary/50 transition-all border-2 border-vintage-orange font-display text-sm md:text-base"
             >
+              <span className="mr-2">✉</span>
               {t("contact.emailMe")}
             </motion.a>
             <motion.a
@@ -45,6 +46,7 @@ export const Contact = () => {
               whileTap={{ scale: 0.95 }}
               className="px-6 md:px-8 py-3 md:py-4 border-2 border-vintage-teal/50 text-vintage-teal font-bold rounded-md hover:bg-vintage-teal hover:text-[#2C2219] transition-all font-display text-sm md:text-base"
             >
+              <span className="mr-2">⑂</span>
               {t("contact.github")}
             </motion.a>
           </div>
@@ -53,10 +55,12 @@ export const Contact = () => {
             {[
               {
                 label: "LinkedIn",
+                icon: "▦",
                 href: "https://www.linkedin.com/in/abdulsami966/",
               },
               {
                 label: "Instagram",
+                icon: "◎",
                 href: "https://www.instagram.com/mian._.sami?igsh=ODU0cjB1OXowaXY4&utm_source=qr",
               },
             ].map((social) => (
@@ -68,6 +72,7 @@ export const Contact = () => {
                 whileHover={{ y: -5 }}
                 className="text-vintage-beige hover:text-vintage-teal transition-colors text-base md:text-lg font-display"
               >
+                <span className="mr-2">{social.icon}</span>
                 {social.label}
               </motion.a>
             ))}

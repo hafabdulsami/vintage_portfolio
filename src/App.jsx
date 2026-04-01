@@ -28,6 +28,7 @@ function App() {
   const { t, language, dir } = useLanguage();
   const containerRef = useRef(null);
   const mobileContainerRef = useRef(null);
+  const currentXRef = useRef(0);
   const [isSafariMobile, setIsSafariMobile] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -42,6 +43,31 @@ function App() {
   const skillsData = useMemo(() => getSkillsData(t), [t]);
 
   const totalSlides = 1 + projectsData.length + skillsData.length + 1;
+
+  // Map nav section names to slide indices
+  const sectionToSlide = useMemo(() => ({
+    home: 0,
+    projects: 1,
+    skills: 1 + projectsData.length,
+    contact: 1 + projectsData.length + skillsData.length,
+  }), [projectsData.length, skillsData.length]);
+
+  const navigateToSection = (section) => {
+    const slideIndex = sectionToSlide[section];
+    if (slideIndex === undefined) return;
+
+    if (isMobile) {
+      setCurrentSlide(slideIndex);
+    } else {
+      const targetX = slideIndex * window.innerWidth;
+      currentXRef.current = targetX;
+      gsap.to(containerRef.current, {
+        x: -targetX,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    }
+  };
 
   useEffect(() => {
     // Detect mobile and Safari mobile
@@ -145,8 +171,6 @@ function App() {
     // Skip GSAP on mobile
     if (isMobile) return;
 
-    let currentX = 0;
-
     // Desktop: Horizontal wheel scroll
     const handleWheelScroll = (e) => {
       e.preventDefault();
@@ -163,11 +187,11 @@ function App() {
       // Prefer horizontal wheel movement, fallback to vertical with shift
       const scrollDelta = deltaX || deltaY;
 
-      currentX += scrollDelta;
-      currentX = Math.max(0, Math.min(currentX, maxScroll));
+      currentXRef.current += scrollDelta;
+      currentXRef.current = Math.max(0, Math.min(currentXRef.current, maxScroll));
 
       gsap.to(container, {
-        x: -currentX,
+        x: -currentXRef.current,
         duration: 0.3,
         ease: "power2.out",
       });
@@ -197,7 +221,7 @@ function App() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <Navigation />
+        <Navigation onNavigate={navigateToSection} />
 
         {/* Horizontal scrolling wrapper */}
         {isMobile ? (

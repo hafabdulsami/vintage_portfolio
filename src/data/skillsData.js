@@ -10,7 +10,7 @@ export const getSkillsData = (t) => [
       "Nuxt 3",
       "TypeScript",
     ],
-    icon: "</>",
+    icon: "❖",
   },
   {
     category: t("skills.backend"),
@@ -22,16 +22,16 @@ export const getSkillsData = (t) => [
       "GraphQL",
       "REST APIs",
     ],
-    icon: "{ }",
+    icon: "⚙",
   },
   {
     category: t("skills.database"),
     items: ["PostgreSQL", "MongoDB", "Redis", "Prisma", "Drizzle", "MySQL"],
-    icon: ">>",
+    icon: "⊞",
   },
   {
     category: t("skills.toolsDevops"),
     items: ["Git", "Docker", "AWS", "Vercel", "CI/CD", "Jest", "Playwright"],
-    icon: "//",
+    icon: "⚒",
   },
 ];
