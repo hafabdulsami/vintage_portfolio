@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__stitch__create_design_system",
+      "mcp__stitch__generate_screen_from_text",
+      "mcp__stitch__list_screens",
+      "mcp__stitch__get_screen",
+      "Bash(npm run *)",
+      "Bash(git stash *)"
+    ]
+  }
+}

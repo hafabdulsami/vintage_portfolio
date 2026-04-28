@@ -1,243 +1,255 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "../i18n/LanguageContext";
+import { MagneticButton } from "./MagneticButton";
 
-gsap.registerPlugin(ScrollTrigger);
+const HeroCanvas = lazy(() =>
+  import("./HeroCanvas").then((m) => ({ default: m.HeroCanvas }))
+);
 
-export const Hero = () => {
-  const { t } = useLanguage();
-  const containerRef = useRef(null);
+const techStack = [
+  "REACT",
+  "NEXT.JS",
+  "NODE",
+  "POSTGRES",
+  "TYPESCRIPT",
+  "AWS",
+  "SVELTE",
+  "DOCKER",
+  "GRAPHQL",
+  "TAILWIND",
+  "PRISMA",
+  "VITE",
+];
 
+const useLahoreTime = () => {
+  const [time, setTime] = useState("");
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".hero-title", {
-        y: 100,
-        opacity: 0,
-        duration: 1.3,
-        stagger: 0.25,
-        ease: "power4.out",
-        delay: 0.2,
-      });
-
-      gsap.from(".hero-subtitle", {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        delay: 0.5,
-        ease: "power3.out",
-      });
-
-      // Parallax effect on scroll
-      gsap.to(".floating-element", {
-        y: -100,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
+    const tick = () => {
+      try {
+        const now = new Date().toLocaleTimeString("en-GB", {
+          timeZone: "Asia/Karachi",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        });
+        setTime(now);
+      } catch {
+        setTime("");
+      }
+    };
+    tick();
+    const id = setInterval(tick, 30_000);
+    return () => clearInterval(id);
   }, []);
+  return time;
+};
 
-  const techStack = [
-    "React",
-    "Next.js",
-    "Svelte",
-    "SvelteKit",
-    "Vue",
-    "Nuxt",
-    "Feathers",
-  ];
+// Word with mask-up reveal
+const RevealWord = ({ children, delay = 0, className = "" }) => (
+  <span className={`inline-block overflow-hidden align-bottom ${className}`}>
+    <motion.span
+      initial={{ y: "110%" }}
+      animate={{ y: "0%" }}
+      transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
+      className="inline-block"
+    >
+      {children}
+    </motion.span>
+  </span>
+);
 
-  // Calculate positions once to avoid re-rendering randomness
-  const techPositions = techStack.map((tech, i) => {
-    const angle = (i * 360) / techStack.length;
-    const radius = 280;
-    const x = Math.cos((angle * Math.PI) / 180) * radius;
-    const y = Math.sin((angle * Math.PI) / 180) * radius;
-    const floatDistance = 15 + i * 3;
-    const floatDuration = 3 + i * 0.3;
-    const rotateAmount = (i % 2 === 0 ? 1 : -1) * (5 + i * 2);
+const RevealLine = ({ children, delay = 0 }) => {
+  const words = String(children).split(" ");
+  return (
+    <span className="inline-flex flex-wrap gap-x-[0.25em]">
+      {words.map((w, i) => (
+        <RevealWord key={i} delay={delay + i * 0.04}>
+          {w}
+        </RevealWord>
+      ))}
+    </span>
+  );
+};
 
-    return { tech, x, y, floatDistance, floatDuration, rotateAmount };
-  });
+export const Hero = ({ onNavigate }) => {
+  const { t } = useLanguage();
+  const time = useLahoreTime();
 
   return (
     <section
       id="home"
-      ref={containerRef}
-      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-32 scroll-mt-24"
+      className="relative w-full min-h-screen flex flex-col justify-center pt-28 md:pt-32 pb-32 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20 relative z-10">
-        {/* Unique asymmetric layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
-          {/* Left side - Text content */}
-          <div className="col-span-1 lg:col-span-6 text-center lg:text-start">
-            <motion.div className="mb-4 md:mb-6 inline-block">
-              <span className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-primary to-secondary rounded-md text-[#2C2219] text-xs md:text-sm font-bold shadow-lg shadow-primary/50 border-2 border-vintage-orange font-display">
-                {t("hero.badge")}
-              </span>
-            </motion.div>
-
-            <div className="overflow-hidden">
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black mb-6 md:mb-8 leading-none font-display">
-                <div className="hero-title mb-2 md:mb-4">
-                  <span className="text-vintage-cream">{t("hero.craft")}</span>
-                </div>
-                <div className="hero-title mb-2 md:mb-4">
-                  <span className="bg-gradient-to-r from-primary via-vintage-orange to-secondary bg-clip-text text-transparent animate-gradient">
-                    {t("hero.timeless")}
-                  </span>
-                </div>
-                <div className="hero-title">
-                  <span className="text-vintage-cream italic">{t("hero.experiences")}</span>
-                </div>
-              </h1>
-            </div>
-
-            <p className="hero-subtitle text-lg md:text-xl lg:text-2xl text-vintage-beige max-w-xl mx-auto lg:mx-0 mb-8 md:mb-12 leading-relaxed">
-              {t("hero.subtitleBefore")}
-              <span className="text-primary font-bold">{t("hero.subtitleHighlight")}</span>
-              {t("hero.subtitleAfter")}
-            </p>
-
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 mb-8 md:mb-12 justify-center lg:justify-start"
+      <Suspense fallback={null}>
+        <HeroCanvas />
+      </Suspense>
+      <div className="max-w-7xl mx-auto px-4 md:px-8 w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-end">
+          {/* Left — main headline */}
+          <div className="lg:col-span-8">
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="font-mono text-[11px] md:text-xs uppercase tracking-[0.2em] text-ink-200 mb-8 flex items-center gap-3"
             >
-              <motion.button
-                whileHover={{ scale: 1.05, rotate: -1 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
-                className="px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-primary to-secondary text-[#2C2219] font-bold rounded-md shadow-2xl shadow-primary/50 hover:shadow-primary transition-all border-2 border-vintage-orange font-display text-sm md:text-base"
+              <span className="w-6 h-px bg-lime" />
+              {t("hero.eyebrow")}
+            </motion.p>
+
+            <h1 className="font-display font-bold tracking-tighter text-white leading-[0.95] text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[7.5vw] xl:text-[112px]">
+              <span className="block">
+                <RevealLine delay={0.1}>{t("hero.line1")}</RevealLine>
+              </span>
+              <span className="block mt-1">
+                <span className="inline-block overflow-hidden align-bottom relative">
+                  <motion.span
+                    initial={{ y: "110%" }}
+                    animate={{ y: "0%" }}
+                    transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    className="inline-block text-lime relative"
+                  >
+                    {t("hero.line2")}
+                    <motion.span
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.8, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute left-0 right-0 -bottom-1 h-[0.06em] bg-lime origin-left"
+                    />
+                  </motion.span>
+                </span>
+                <RevealWord delay={0.55}>{t("hero.line2Tail")}</RevealWord>
+              </span>
+            </h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+              className="mt-8 max-w-xl text-base md:text-lg text-ink-100/85 leading-relaxed"
+            >
+              {t("hero.subtitle")}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.2 }}
+              className="mt-8 flex flex-col sm:flex-row gap-3"
+            >
+              <MagneticButton
+                onClick={() => onNavigate?.("projects")}
+                whileTap={{ scale: 0.97 }}
+                className="group inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md bg-lime text-ink-800 font-mono text-xs uppercase tracking-widest font-semibold hover:bg-white transition-colors"
               >
                 {t("hero.seeWork")}
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05, rotate: 1 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
-                className="px-6 md:px-8 py-3 md:py-4 border-2 border-primary/50 text-primary font-bold rounded-md hover:bg-primary hover:text-[#2C2219] transition-all relative overflow-hidden group font-display text-sm md:text-base"
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </MagneticButton>
+              <MagneticButton
+                onClick={() => onNavigate?.("contact")}
+                whileTap={{ scale: 0.97 }}
+                className="group inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md border border-white/[0.12] text-white font-mono text-xs uppercase tracking-widest hover:border-lime hover:text-lime transition-colors"
               >
-                <span className="relative z-10">{t("hero.letsTalk")}</span>
-                <div className="absolute inset-0 bg-primary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-              </motion.button>
+                {t("hero.letsTalk")}
+              </MagneticButton>
             </motion.div>
           </div>
 
-          {/* Right side - Creative element */}
-          <div className="col-span-1 lg:col-span-6 relative flex justify-center lg:justify-end">
-            <motion.div
-              className="floating-element relative"
-              animate={{
-                y: [0, -20, 0],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              {/* Tech stack - Grid on mobile, Circular on desktop */}
-              <div className="hidden lg:block relative w-[500px] xl:w-[700px] h-[500px] xl:h-[700px] mx-auto pointer-events-none">
-                {techPositions.map((pos, i) => (
-                  <div
-                    key={pos.tech}
-                    className="absolute"
-                    style={{
-                      left: `calc(50% + ${pos.x * 0.7}px)`,
-                      top: `calc(50% + ${pos.y * 0.7}px)`,
-                      transform: "translate(-50%, -50%)",
-                      zIndex: 10,
+          {/* Right — currently panel */}
+          <motion.aside
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:col-span-4 lg:pl-8 lg:border-s lg:border-white/[0.06]"
+          >
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-200 mb-4">
+              {t("hero.currently")}
+            </p>
+            <ul className="space-y-2.5 mb-8">
+              {[
+                t("hero.currently1"),
+                t("hero.currently2"),
+                t("hero.currently3"),
+              ].map((item, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 1.2 + i * 0.08 }}
+                  className="flex items-start gap-3 text-sm text-ink-100/85"
+                >
+                  <motion.span
+                    animate={{ x: [0, 3, 0] }}
+                    transition={{
+                      duration: 1.6,
+                      repeat: Infinity,
+                      delay: i * 0.3,
+                      ease: "easeInOut",
                     }}
+                    className="text-lime mt-0.5"
                   >
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{
-                        opacity: 1,
-                        scale: 1,
-                        y: [0, -pos.floatDistance, 0],
-                        rotate: [0, pos.rotateAmount, 0],
-                      }}
-                      transition={{
-                        delay: 0.3 + i * 0.1,
-                        type: "spring",
-                        stiffness: 150,
-                        damping: 25,
-                        y: {
-                          duration: pos.floatDuration,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          delay: i * 0.2,
-                        },
-                        rotate: {
-                          duration: pos.floatDuration + 1,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          delay: i * 0.15,
-                        },
-                      }}
-                      whileHover={{ scale: 1.3, rotate: 360, zIndex: 100 }}
-                      className="pointer-events-auto"
-                    >
-                      <div className="px-4 py-2.5 bg-[#3B2F22] border-2 border-primary/50 rounded-lg text-vintage-cream font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/60 transition-all cursor-pointer whitespace-nowrap font-display hover:z-50">
-                        {pos.tech}
-                      </div>
-                    </motion.div>
-                  </div>
-                ))}
-
-                {/* Center circle */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 xl:w-20 h-16 xl:h-20 bg-gradient-to-br from-primary to-vintage-orange rounded-lg flex items-center justify-center text-xl xl:text-2xl font-bold shadow-2xl shadow-primary/50 border-3 border-vintage-cream/20 text-[#2C2219] font-display">
-                  &lt;/&gt;
-                </div>
-              </div>
-
-              {/* Mobile tech stack - Simple grid layout */}
-              <div className="lg:hidden flex flex-wrap justify-center gap-3 max-w-xs mx-auto">
-                {techStack.map((tech, i) => (
-                  <motion.div
-                    key={tech}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.3 + i * 0.1, type: "spring", stiffness: 150, damping: 25 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-3 py-2 bg-[#3B2F22] border-2 border-primary/50 rounded-md text-vintage-cream font-bold text-xs shadow-lg shadow-primary/30 font-display"
-                  >
-                    {tech}
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
+                    →
+                  </motion.span>
+                  <span>{item}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.aside>
         </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.5 }}
+          className="absolute bottom-32 md:bottom-36 left-0 right-0 px-4 md:px-8"
+        >
+          <div className="max-w-7xl mx-auto flex items-center justify-between text-[11px] font-mono uppercase tracking-widest text-ink-200">
+            <span className="flex items-center gap-3">
+              <span>{t("hero.scroll")}</span>
+              <motion.span
+                animate={{ y: [0, 6, 0] }}
+                transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+                className="text-lime"
+              >
+                ↓
+              </motion.span>
+              <span className="text-ink-300">01 / 04</span>
+            </span>
+            <span className="hidden sm:flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-lime pulse-lime" />
+              <span>Lahore · {time || "--:--"}</span>
+            </span>
+          </div>
+        </motion.div>
       </div>
 
-      {/* Animated background shapes */}
+      {/* Tech marquee */}
       <motion.div
-        className="absolute top-10 md:top-20 right-5 md:right-10 w-48 md:w-96 h-48 md:h-96 bg-gradient-to-br from-primary/20 to-vintage-orange/20 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.3, 1],
-          rotate: [0, 180, 0],
-        }}
-        transition={{ duration: 20, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute bottom-10 md:bottom-20 left-5 md:left-10 w-40 md:w-80 h-40 md:h-80 bg-gradient-to-tr from-secondary/20 to-vintage-teal/20 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          rotate: [0, -180, 0],
-        }}
-        transition={{ duration: 15, repeat: Infinity, delay: 2 }}
-      />
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 1.4 }}
+        className="absolute bottom-0 left-0 right-0 border-t border-b border-white/[0.06] bg-ink-800/40 backdrop-blur-sm"
+      >
+        <div className="overflow-hidden py-4 [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
+          <motion.div
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="flex items-center gap-12 whitespace-nowrap"
+          >
+            {[...techStack, ...techStack].map((tech, i) => (
+              <span
+                key={i}
+                className="font-mono text-xs md:text-sm uppercase tracking-[0.25em] text-ink-100/60 inline-flex items-center gap-12"
+              >
+                {tech}
+                <span className="text-lime">◇</span>
+              </span>
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
 };

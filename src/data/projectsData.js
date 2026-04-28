@@ -8,8 +8,8 @@ export const getProjectsData = (t) => [
   {
     title: t("projects.gameGallery.title"),
     description: t("projects.gameGallery.description"),
-    tech: ["Solidity", "React", "Node.js", "Crypto Wallet"],
-    gradient: "from-purple-500 to-pink-500",
+    tech: ["Solidity", "React", "Node.js"],
+    year: "2024",
     stats: [
       { label: t("projects.gameGallery.stats.assets"), value: "500+" },
       { label: t("projects.gameGallery.stats.volume"), value: "$2.5M" },
@@ -20,8 +20,8 @@ export const getProjectsData = (t) => [
   {
     title: t("projects.khalidBook.title"),
     description: t("projects.khalidBook.description"),
-    tech: ["React", "Node.js", "Bootstrap", "REST API"],
-    gradient: "from-blue-500 to-cyan-500",
+    tech: ["React", "Node.js", "REST"],
+    year: "2023",
     stats: [
       { label: t("projects.khalidBook.stats.companies"), value: "50+" },
       { label: t("projects.khalidBook.stats.transactions"), value: "100K+" },
@@ -32,8 +32,8 @@ export const getProjectsData = (t) => [
   {
     title: t("projects.scienceSociety.title"),
     description: t("projects.scienceSociety.description"),
-    tech: ["Next.js", "MongoDB", "Bootstrap", "Vercel"],
-    gradient: "from-green-500 to-emerald-500",
+    tech: ["Next.js", "MongoDB", "Vercel"],
+    year: "2023",
     stats: [
       { label: t("projects.scienceSociety.stats.members"), value: "2K+" },
       { label: t("projects.scienceSociety.stats.events"), value: "40+" },
@@ -44,8 +44,8 @@ export const getProjectsData = (t) => [
   {
     title: t("projects.heartlandRehab.title"),
     description: t("projects.heartlandRehab.description"),
-    tech: ["React", "Node.js", "ExpressJS", "Material UI"],
-    gradient: "from-orange-500 to-red-500",
+    tech: ["React", "Express", "MUI"],
+    year: "2022",
     stats: [
       { label: t("projects.heartlandRehab.stats.patients"), value: "500+" },
       {
@@ -59,8 +59,8 @@ export const getProjectsData = (t) => [
   {
     title: t("projects.establo.title"),
     description: t("projects.establo.description"),
-    tech: ["Next.js", "Tailwind CSS", "Solana", "Web3"],
-    gradient: "from-yellow-500 to-orange-500",
+    tech: ["Next.js", "Tailwind", "Solana"],
+    year: "2024",
     stats: [
       { label: t("projects.establo.stats.tvl"), value: "$50M+" },
       { label: t("projects.establo.stats.transactions"), value: "1M+" },

@@ -1,47 +1,28 @@
 import React from "react";
 
-// Animated Background Grid - Vintage Paper Texture
 export const AnimatedGrid = () => {
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#3B2F22] via-[#2C2219] to-[#3B2F22]" />
-      {/* Vintage paper texture pattern */}
       <div
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage: `repeating-linear-gradient(
-            0deg,
-            rgba(212, 165, 116, 0.03) 0px,
-            transparent 1px,
-            transparent 2px,
-            rgba(212, 165, 116, 0.03) 3px
-          ),
-          repeating-linear-gradient(
             90deg,
-            rgba(212, 165, 116, 0.03) 0px,
+            rgba(255,255,255,1) 0px,
+            rgba(255,255,255,1) 1px,
             transparent 1px,
-            transparent 2px,
-            rgba(212, 165, 116, 0.03) 3px
+            transparent calc(100vw / 12)
           )`,
-          backgroundSize: "80px 80px",
-          animation: "gridMove 30s linear infinite",
         }}
       />
-      {/* Old paper spots effect */}
       <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `radial-gradient(circle, rgba(193, 120, 80, 0.1) 1px, transparent 1px)`,
-          backgroundSize: "40px 40px",
-          backgroundPosition: "0 0, 20px 20px",
-        }}
+        className="absolute -top-32 -left-32 w-[40rem] h-[40rem] rounded-full opacity-[0.06] blur-3xl"
+        style={{ background: "radial-gradient(closest-side, #C6F542, transparent)" }}
       />
-      <style>{`
-        @keyframes gridMove {
-          0% { transform: translate(0, 0); }
-          100% { transform: translate(80px, 80px); }
-        }
-      `}</style>
+      <div
+        className="absolute -bottom-40 -right-40 w-[36rem] h-[36rem] rounded-full opacity-[0.05] blur-3xl"
+        style={{ background: "radial-gradient(closest-side, #7C5CFF, transparent)" }}
+      />
     </div>
   );
 };
