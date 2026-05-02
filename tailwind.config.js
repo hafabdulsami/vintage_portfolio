@@ -2,7 +2,7 @@
 module.exports = {
   content: [
     "./index.html",
-    "./minimal.html",
+    "./vintage.html",
     "./src/**/*.{js,ts,jsx,tsx}",
     "./src-minimal/**/*.{js,ts,jsx,tsx}",
   ],

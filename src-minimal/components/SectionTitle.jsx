@@ -19,19 +19,19 @@ export function SectionTitle({ title, eyebrow, id }) {
     <div
       id={id}
       ref={ref}
-      className="relative h-[120vh] border-t hairline"
+      className="relative h-[80vh] md:h-[120vh] border-t hairline"
     >
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
         {eyebrow && (
-          <div className="px-6 md:px-16 max-w-[1400px] mx-auto w-full mb-6">
-            <p className="font-mono text-xs text-[var(--ink-muted)]">
+          <div className="px-5 md:px-16 max-w-[1400px] mx-auto w-full mb-4 md:mb-6">
+            <p className="font-mono text-[10px] md:text-xs text-[var(--ink-muted)]">
               // {eyebrow}
             </p>
           </div>
         )}
         <motion.h2
           style={{ x, opacity }}
-          className="font-display font-semibold tracking-tightest leading-[0.85] whitespace-nowrap text-[20vw] md:text-[18vw] will-change-transform"
+          className="font-display font-semibold tracking-tightest leading-[0.85] whitespace-nowrap text-[24vw] md:text-[18vw] will-change-transform"
         >
           {title}
         </motion.h2>

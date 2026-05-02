@@ -19,9 +19,68 @@ export function About() {
   const loop = [...verticalItems, ...verticalItems, ...verticalItems];
 
   return (
-    <section ref={ref} className="px-6 md:px-16 pt-8 pb-32">
+    <section ref={ref} className="px-5 md:px-16 pt-8 pb-20 md:pb-32">
+      {/* Mobile: stacked layout */}
+      <div className="md:hidden space-y-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7 }}
+          className="space-y-5"
+        >
+          <p className="font-mono text-[11px] text-[var(--ink-muted)]">
+            {t("about.eyebrow")}
+          </p>
+          <p className="text-lg text-[var(--ink)] leading-[1.55]">
+            {t("about.p1")}
+          </p>
+          <p className="text-base text-[var(--ink-muted)] leading-[1.7]">
+            {t("about.p2")}
+          </p>
+          <p className="text-base text-[var(--ink-muted)] leading-[1.7]">
+            {t("about.p3")}
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <AvatarOrb />
+        </motion.div>
+
+        <div className="grid grid-cols-3 gap-4 border-t hairline pt-6">
+          <div>
+            <div className="font-display text-2xl">
+              <Counter value={3} suffix="+" />
+            </div>
+            <div className="text-[10px] text-[var(--ink-muted)] mt-1 font-mono leading-tight">
+              {t("about.yrsLabel")}
+            </div>
+          </div>
+          <div>
+            <div className="font-display text-2xl">
+              <Counter value={5} />
+            </div>
+            <div className="text-[10px] text-[var(--ink-muted)] mt-1 font-mono leading-tight">
+              {t("about.productsLabel")}
+            </div>
+          </div>
+          <div>
+            <div className="font-display text-2xl">∞</div>
+            <div className="text-[10px] text-[var(--ink-muted)] mt-1 font-mono leading-tight">
+              {t("about.curiosityLabel")}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop: 24-col grid (10 / 4 / 10) */}
       <div
-        className="max-w-[1400px] mx-auto grid gap-6 md:gap-8 items-stretch"
+        className="hidden md:grid max-w-[1400px] mx-auto gap-8 items-stretch"
         style={{ gridTemplateColumns: "repeat(24, minmax(0, 1fr))" }}
       >
         <motion.div
@@ -29,47 +88,50 @@ export function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7 }}
-          className="space-y-7 col-span-full md:col-auto"
+          className="space-y-7"
           style={{ gridColumn: "span 10 / span 10" }}
         >
           <p className="font-mono text-xs text-[var(--ink-muted)]">
             {t("about.eyebrow")}
           </p>
-
-          <p className="text-xl md:text-2xl text-[var(--ink)] leading-[1.5]">
+          <p className="text-2xl text-[var(--ink)] leading-[1.5]">
             {t("about.p1")}
           </p>
-
-          <p className="text-base md:text-lg text-[var(--ink-muted)] leading-[1.7]">
+          <p className="text-lg text-[var(--ink-muted)] leading-[1.7]">
             {t("about.p2")}
           </p>
-
-          <p className="text-base md:text-lg text-[var(--ink-muted)] leading-[1.7]">
+          <p className="text-lg text-[var(--ink-muted)] leading-[1.7]">
             {t("about.p3")}
           </p>
 
           <div className="pt-6 grid grid-cols-3 gap-6 border-t hairline">
             <div className="pt-6">
-              <div className="font-display text-3xl md:text-4xl">
+              <div className="font-display text-4xl">
                 <Counter value={3} suffix="+" />
               </div>
-              <div className="text-xs text-[var(--ink-muted)] mt-1 font-mono">{t("about.yrsLabel")}</div>
+              <div className="text-xs text-[var(--ink-muted)] mt-1 font-mono">
+                {t("about.yrsLabel")}
+              </div>
             </div>
             <div className="pt-6">
-              <div className="font-display text-3xl md:text-4xl">
+              <div className="font-display text-4xl">
                 <Counter value={5} />
               </div>
-              <div className="text-xs text-[var(--ink-muted)] mt-1 font-mono">{t("about.productsLabel")}</div>
+              <div className="text-xs text-[var(--ink-muted)] mt-1 font-mono">
+                {t("about.productsLabel")}
+              </div>
             </div>
             <div className="pt-6">
-              <div className="font-display text-3xl md:text-4xl">∞</div>
-              <div className="text-xs text-[var(--ink-muted)] mt-1 font-mono">{t("about.curiosityLabel")}</div>
+              <div className="font-display text-4xl">∞</div>
+              <div className="text-xs text-[var(--ink-muted)] mt-1 font-mono">
+                {t("about.curiosityLabel")}
+              </div>
             </div>
           </div>
         </motion.div>
 
         <div
-          className="hidden md:block relative"
+          className="relative"
           style={{ gridColumn: "span 4 / span 4" }}
         >
           <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
@@ -90,23 +152,13 @@ export function About() {
         </div>
 
         <div
-          className="hidden md:flex items-center justify-center"
+          className="flex items-center justify-center"
           style={{ gridColumn: "span 10 / span 10" }}
         >
           <motion.div style={{ y: rightY }} className="w-full">
             <AvatarOrb />
           </motion.div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.94 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="md:hidden col-span-full"
-        >
-          <AvatarOrb />
-        </motion.div>
       </div>
     </section>
   );

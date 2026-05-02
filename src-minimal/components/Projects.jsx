@@ -26,7 +26,7 @@ function ProjectRow({ project, t }) {
         </div>
       </a>
 
-      <div className="mt-10 border-y hairline bg-[var(--bg-soft)]/40">
+      <div className="mt-6 md:mt-10 border-y hairline bg-[var(--bg-soft)]/40">
         <Marquee
           items={[
             ...project.tech,
@@ -37,7 +37,7 @@ function ProjectRow({ project, t }) {
         />
       </div>
 
-      <div className="mt-12 max-w-3xl mx-auto text-center space-y-6">
+      <div className="mt-8 md:mt-12 max-w-3xl mx-auto text-center space-y-4 md:space-y-6">
         {project.description.map((para, i) => (
           <motion.p
             key={i}
@@ -45,7 +45,7 @@ function ProjectRow({ project, t }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-lg md:text-xl text-[var(--ink)] leading-[1.55]"
+            className="text-[15px] md:text-xl text-[var(--ink)] leading-[1.6] md:leading-[1.55]"
           >
             {para}
           </motion.p>
@@ -57,7 +57,7 @@ function ProjectRow({ project, t }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-16 text-center"
+        className="mt-10 md:mt-16 text-center"
       >
         <a
           href={project.link}
@@ -65,9 +65,9 @@ function ProjectRow({ project, t }) {
           rel="noreferrer"
           className="block group/title"
         >
-          <h3 className="font-display font-semibold tracking-tightest leading-[0.95] text-6xl md:text-8xl group-hover/title:text-[var(--accent)] transition-colors">
+          <h3 className="font-display font-semibold tracking-tightest leading-[0.95] text-4xl sm:text-5xl md:text-8xl group-hover/title:text-[var(--accent)] transition-colors break-words">
             {project.title}
-            <span className="inline-block ml-4 align-middle text-[0.4em] text-[var(--ink-muted)] group-hover/title:text-[var(--accent)] transition-all group-hover/title:translate-x-2 group-hover/title:-translate-y-2">
+            <span className="inline-block ml-2 md:ml-4 align-middle text-[0.4em] text-[var(--ink-muted)] group-hover/title:text-[var(--accent)] transition-all group-hover/title:translate-x-2 group-hover/title:-translate-y-2">
               ↗
             </span>
           </h3>
@@ -76,7 +76,7 @@ function ProjectRow({ project, t }) {
           href={project.link}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 mt-8 text-[var(--ink)] font-medium border-b border-[var(--ink)] pb-0.5 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
+          className="inline-flex items-center gap-2 mt-6 md:mt-8 text-sm md:text-base text-[var(--ink)] font-medium border-b border-[var(--ink)] pb-0.5 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
         >
           {t("projects.viewProject")}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -93,15 +93,15 @@ export function Projects() {
   const projects = getProjects(t);
 
   return (
-    <section className="px-6 md:px-16 pt-8 pb-32">
+    <section className="px-5 md:px-16 pt-6 md:pt-8 pb-20 md:pb-32">
       <div className="max-w-[1400px] mx-auto">
-        <div className="mb-20 max-w-md">
-          <p className="text-base text-[var(--ink-muted)] leading-relaxed">
+        <div className="mb-12 md:mb-20 max-w-md">
+          <p className="text-sm md:text-base text-[var(--ink-muted)] leading-relaxed">
             {t("projects.intro")}
           </p>
         </div>
 
-        <div className="space-y-48">
+        <div className="space-y-24 md:space-y-48">
           {projects.map((p) => (
             <ProjectRow key={p.key} project={p} t={t} />
           ))}

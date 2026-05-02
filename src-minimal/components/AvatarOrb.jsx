@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export function AvatarOrb() {
   return (
-    <div className="relative aspect-[3/4] w-full max-w-[440px] mx-auto">
+    <div className="relative aspect-[3/4] w-full max-w-[340px] md:max-w-[440px] mx-auto">
       <div className="absolute inset-6 rounded-full orb-bg opacity-80" />
 
       <motion.div

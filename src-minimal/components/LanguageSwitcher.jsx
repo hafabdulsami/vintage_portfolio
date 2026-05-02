@@ -29,7 +29,7 @@ export const LanguageSwitcher = () => {
   }, []);
 
   return (
-    <div ref={ref} className="fixed bottom-6 left-6 z-[9997]">
+    <div ref={ref} className="fixed bottom-5 left-5 md:bottom-6 md:left-6 z-[9997]">
       <AnimatePresence>
         {open && (
           <motion.div
