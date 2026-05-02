@@ -6,7 +6,10 @@
       "mcp__stitch__list_screens",
       "mcp__stitch__get_screen",
       "Bash(npm run *)",
-      "Bash(git stash *)"
+      "Bash(git stash *)",
+      "WebFetch(domain:web3-portfolio-site.vercel.app)",
+      "Bash(curl -s \"https://web3-portfolio-site.vercel.app/\")",
+      "Bash(curl -s \"https://web3-portfolio-site.vercel.app/_next/static/css/0edc275f2c2ff71f.css\")"
     ]
   }
 }
