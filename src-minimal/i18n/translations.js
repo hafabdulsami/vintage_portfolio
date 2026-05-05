@@ -46,6 +46,7 @@ export const translations = {
       intro:
         "A handful of things I've shipped — across Web3, fintech, healthcare, and community tools. Each one taught me something I still use daily.",
       viewProject: "View project",
+      builtWith: "Built with",
       live: "View live",
       establo: {
         tagline: "DeFi dashboard · Solana",
@@ -144,6 +145,7 @@ export const translations = {
       intro:
         "Quelques projets que j'ai livrés — dans le Web3, la fintech, la santé et les outils communautaires. Chacun m'a appris quelque chose que j'utilise encore.",
       viewProject: "Voir le projet",
+      builtWith: "Construit avec",
       live: "Voir en ligne",
       establo: {
         tagline: "Dashboard DeFi · Solana",
@@ -242,6 +244,7 @@ export const translations = {
       intro:
         "بعض المشاريع التي أطلقتها — في Web3 والتقنية المالية والصحة وأدوات المجتمعات. كل واحد علمني شيئاً ما زلت أستخدمه.",
       viewProject: "عرض المشروع",
+      builtWith: "مبني بـ",
       live: "مشاهدة مباشرة",
       establo: {
         tagline: "لوحة DeFi · Solana",
@@ -340,6 +343,7 @@ export const translations = {
       intro:
         "Qualche progetto che ho rilasciato — Web3, fintech, sanità, strumenti per community. Ognuno mi ha insegnato qualcosa che uso ancora.",
       viewProject: "Vedi il progetto",
+      builtWith: "Costruito con",
       live: "Vedi live",
       establo: {
         tagline: "Dashboard DeFi · Solana",

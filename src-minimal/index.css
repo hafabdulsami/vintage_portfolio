@@ -11,10 +11,10 @@
   --ink-faint: #4A4A50;
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: rgba(255, 255, 255, 0.16);
-  --accent: #FF6B4A;
-  --grad-1: #7C5CFF;
-  --grad-2: #FF6B4A;
-  --grad-3: #C6F542;
+  --accent: #FFFFFF;
+  --grad-1: #FFFFFF;
+  --grad-2: #B8B8B8;
+  --grad-3: #6E6E6E;
 }
 
 * { box-sizing: border-box; }

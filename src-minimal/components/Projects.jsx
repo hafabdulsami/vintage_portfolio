@@ -14,7 +14,7 @@ function ProjectRow({ project, t }) {
       className="group"
     >
       <a href={project.link} target="_blank" rel="noreferrer" className="block">
-        <div className="relative overflow-hidden rounded-3xl bg-[var(--bg-soft)] aspect-[16/9] border hairline">
+        <div className="relative overflow-hidden bg-[var(--bg-soft)] aspect-[16/9]">
           <img
             src={project.image}
             alt={project.title}
@@ -26,18 +26,35 @@ function ProjectRow({ project, t }) {
         </div>
       </a>
 
-      <div className="mt-6 md:mt-10 border-y hairline bg-[var(--bg-soft)]/40">
-        <Marquee
-          items={[
-            ...project.tech,
-            project.tagline,
-            ...project.tech,
-            t("projects.live"),
-          ]}
-        />
+      <div className="border-y border-white/30 bg-[var(--bg)] flex items-stretch">
+        <div className="shrink-0 px-4 md:px-6 flex items-center border-r border-white/30">
+          <span className="font-mono text-xs md:text-sm font-bold tracking-wider uppercase whitespace-nowrap text-[var(--ink)]">
+            {t("projects.builtWith")}
+          </span>
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <Marquee
+            items={[
+              ...project.tech,
+              project.tagline,
+              ...project.tech,
+              t("projects.live"),
+            ]}
+          />
+        </div>
+
+        <a
+          href={project.link}
+          target="_blank"
+          rel="noreferrer"
+          className="shrink-0 px-4 md:px-6 flex items-center border-l border-white/30 whitespace-nowrap font-mono text-xs md:text-sm font-bold bg-[var(--ink)] text-[var(--bg)] hover:bg-[var(--bg)] hover:text-[var(--ink)] transition-colors"
+        >
+          {t("projects.viewProject")}
+        </a>
       </div>
 
-      <div className="mt-8 md:mt-12 max-w-3xl mx-auto text-center space-y-4 md:space-y-6">
+      <div className="mt-8 md:mt-12 max-w-3xl mx-auto text-center space-y-4 md:space-y-6 px-5 md:px-8">
         {project.description.map((para, i) => (
           <motion.p
             key={i}
@@ -57,7 +74,7 @@ function ProjectRow({ project, t }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-10 md:mt-16 text-center"
+        className="mt-10 md:mt-16 text-center px-5 md:px-8"
       >
         <a
           href={project.link}
@@ -93,9 +110,9 @@ export function Projects() {
   const projects = getProjects(t);
 
   return (
-    <section className="px-5 md:px-16 pt-6 md:pt-8 pb-20 md:pb-32">
-      <div className="max-w-[1400px] mx-auto">
-        <div className="mb-12 md:mb-20 max-w-md">
+    <section className="pt-6 md:pt-8 pb-20 md:pb-32">
+      <div>
+        <div className="mb-12 md:mb-20 max-w-md px-5 md:px-16">
           <p className="text-sm md:text-base text-[var(--ink-muted)] leading-relaxed">
             {t("projects.intro")}
           </p>
