@@ -16,7 +16,7 @@ export const translations = {
       available: "Available for freelance & full-time roles",
     },
     chapters: {
-      projectsEyebrow: "Selected work · 2022 — 2024",
+      projectsEyebrow: "Selected work · 2023 — 2026",
       projectsTitle: "Projects.",
       aboutEyebrow: "About · me",
       aboutTitle: "About me.",
@@ -48,6 +48,11 @@ export const translations = {
       viewProject: "View project",
       builtWith: "Built with",
       live: "View live",
+      correctia: {
+        tagline: "AI learning platform · EdTech",
+        p1: "An AI-powered learning platform where teachers spin up full educational apps in minutes — pick one of 9 exercise types (quizzes, flashcards, drag-drop, geometry, audio fill-in-blanks, hierarchical trees, math equations, image-based, speak-the-answer), and the platform generates contextual questions on demand through a multi-model OpenRouter chain (Grok → Claude → Gemini → GPT) with automatic fallback. Students browse published apps, run sessions, get instant feedback, and progress through a Silver-to-Master badge system.",
+        p2: "Built on SvelteKit with Svelte 5 runes and Prisma over Postgres — 26 models spanning users, apps, sessions, a Stripe-integrated wallet, and a pay-per-pack billing system. Question generation runs in pg-boss background workers so teachers don't sit and wait, and every AI call is screened through Google ModelArmor for content safety. The hardest part was making one generation pipeline robust across 9 wildly different exercise schemas — each type has its own generator, validator, and student-side renderer driven from a shared template config.",
+      },
       establo: {
         tagline: "DeFi dashboard · Solana",
         p1: "A production DeFi dashboard for a dual-backed stablecoin on Solana, currently sitting at over $50M in total value locked. The interface lets users mint, redeem, and stake EUSD against multiple collateral types in a single flow, with live oracle pricing and on-chain transaction confirmation.",
@@ -115,7 +120,7 @@ export const translations = {
       available: "Disponible pour freelance et postes à temps plein",
     },
     chapters: {
-      projectsEyebrow: "Projets sélectionnés · 2022 — 2024",
+      projectsEyebrow: "Projets sélectionnés · 2023 — 2026",
       projectsTitle: "Projets.",
       aboutEyebrow: "À propos · moi",
       aboutTitle: "À propos.",
@@ -147,6 +152,11 @@ export const translations = {
       viewProject: "Voir le projet",
       builtWith: "Construit avec",
       live: "Voir en ligne",
+      correctia: {
+        tagline: "Plateforme d'apprentissage IA · EdTech",
+        p1: "Une plateforme d'apprentissage interactive propulsée par l'IA où les enseignants créent des applis éducatives complètes en quelques minutes — au choix parmi 9 types d'exercices (quiz, flashcards, glisser-déposer, géométrie, audio à trous, arbres hiérarchiques, équations, image, oral), avec génération de questions contextuelles à la demande via une chaîne multi-modèles OpenRouter (Grok → Claude → Gemini → GPT) et basculement automatique. Les élèves parcourent les apps publiées, lancent des sessions, reçoivent un feedback instantané, et progressent dans un système de badges allant de Silver à Master.",
+        p2: "Construit sur SvelteKit avec les runes de Svelte 5 et Prisma sur Postgres — 26 modèles couvrant utilisateurs, apps, sessions, un wallet intégré à Stripe, et une facturation au pack. La génération de questions tourne en arrière-plan via pg-boss pour que les profs n'attendent pas, et chaque appel IA passe par Google ModelArmor pour la sécurité des contenus. Le plus dur a été de rendre un même pipeline robuste sur 9 schémas d'exercices très différents — chaque type a son générateur, son validateur et son renderer, tous pilotés par une config de template partagée.",
+      },
       establo: {
         tagline: "Dashboard DeFi · Solana",
         p1: "Un dashboard DeFi en production pour un stablecoin à double garantie sur Solana, actuellement à plus de 50M$ en TVL. L'interface permet de mint, redeem et staker EUSD contre plusieurs types de collatéraux dans un seul flux, avec prix oracle en direct et confirmation on-chain.",
@@ -214,7 +224,7 @@ export const translations = {
       available: "متاح للعمل الحر والوظائف بدوام كامل",
     },
     chapters: {
-      projectsEyebrow: "أعمال مختارة · 2022 — 2024",
+      projectsEyebrow: "أعمال مختارة · 2023 — 2026",
       projectsTitle: "المشاريع.",
       aboutEyebrow: "حول · أنا",
       aboutTitle: "عني.",
@@ -246,6 +256,11 @@ export const translations = {
       viewProject: "عرض المشروع",
       builtWith: "مبني بـ",
       live: "مشاهدة مباشرة",
+      correctia: {
+        tagline: "منصة تعلم بالذكاء الاصطناعي · EdTech",
+        p1: "منصة تعلم تفاعلية مدعومة بالذكاء الاصطناعي يُنشئ فيها المعلمون تطبيقات تعليمية كاملة في دقائق — يختارون من 9 أنواع من التمارين (اختبارات، بطاقات تعليمية، سحب وإفلات، هندسة، صوت بفراغات، أشجار هرمية، معادلات رياضية، صور، إجابة شفهية)، وتولّد المنصة أسئلة سياقية عند الطلب عبر سلسلة نماذج OpenRouter متعددة (Grok → Claude → Gemini → GPT) مع تبديل تلقائي. الطلاب يتصفحون التطبيقات المنشورة، يبدؤون الجلسات، يحصلون على ردود فورية، ويتقدمون في نظام شارات من Silver إلى Master.",
+        p2: "مبنية على SvelteKit مع runes في Svelte 5 و Prisma فوق Postgres — 26 نموذجاً تغطي المستخدمين والتطبيقات والجلسات، ومحفظة مدمجة مع Stripe، ونظام دفع لكل حزمة. توليد الأسئلة يعمل في خلفية pg-boss حتى لا ينتظر المعلمون، وكل استدعاء AI يمر عبر Google ModelArmor للسلامة. الأصعب كان جعل خط توليد واحد متيناً عبر 9 مخططات تمارين مختلفة جداً — كل نوع له مولّده ومُدقّقه وعارضه، يعملون كلهم انطلاقاً من إعداد قالب مشترك.",
+      },
       establo: {
         tagline: "لوحة DeFi · Solana",
         p1: "لوحة DeFi إنتاجية لعملة مستقرة مزدوجة الضمان على Solana، حالياً بأكثر من 50M$ في TVL. الواجهة تتيح للمستخدمين mint و redeem و stake لـ EUSD مقابل أنواع متعددة من الضمانات في تدفق واحد، مع تسعير oracle مباشر وتأكيد on-chain.",
@@ -313,7 +328,7 @@ export const translations = {
       available: "Disponibile per freelance e ruoli a tempo pieno",
     },
     chapters: {
-      projectsEyebrow: "Lavori selezionati · 2022 — 2024",
+      projectsEyebrow: "Lavori selezionati · 2023 — 2026",
       projectsTitle: "Progetti.",
       aboutEyebrow: "Chi · sono",
       aboutTitle: "Chi sono.",
@@ -345,6 +360,11 @@ export const translations = {
       viewProject: "Vedi il progetto",
       builtWith: "Costruito con",
       live: "Vedi live",
+      correctia: {
+        tagline: "Piattaforma di apprendimento AI · EdTech",
+        p1: "Una piattaforma di apprendimento interattiva basata sull'AI dove gli insegnanti creano app didattiche complete in pochi minuti — scegliendo uno di 9 tipi di esercizio (quiz, flashcard, drag-drop, geometria, audio con spazi, alberi gerarchici, equazioni, image-based, risposta orale), con generazione di domande contestuali su richiesta tramite una catena multi-modello OpenRouter (Grok → Claude → Gemini → GPT) e fallback automatico. Gli studenti sfogliano le app pubblicate, avviano sessioni, ricevono feedback istantaneo, e progrediscono in un sistema di badge da Silver a Master.",
+        p2: "Costruito su SvelteKit con le rune di Svelte 5 e Prisma su Postgres — 26 modelli che coprono utenti, app, sessioni, un wallet integrato con Stripe e una fatturazione a pacchetto. La generazione delle domande gira in background con pg-boss così gli insegnanti non aspettano, e ogni chiamata AI passa per Google ModelArmor per la sicurezza dei contenuti. La parte più dura è stata rendere una sola pipeline robusta su 9 schemi di esercizi molto diversi — ogni tipo ha il suo generatore, validatore e renderer, tutti guidati da una config di template condivisa.",
+      },
       establo: {
         tagline: "Dashboard DeFi · Solana",
         p1: "Una dashboard DeFi di produzione per una stablecoin a doppia garanzia su Solana, attualmente oltre 50M$ in TVL. L'interfaccia permette mint, redeem e stake di EUSD contro più tipi di collaterale in un singolo flusso, con prezzi oracle in tempo reale e conferma on-chain.",

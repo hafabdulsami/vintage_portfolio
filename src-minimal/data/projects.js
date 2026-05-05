@@ -3,8 +3,19 @@ import KhalidBook from "../../src/assets/projects/KhalidBookmockup.png";
 import ScienceSociety from "../../src/assets/projects/ScienceSocietythumbnail.png";
 import HeartLand from "../../src/assets/projects/HeartLandthumnail.jpg";
 import Establo from "../../src/assets/projects/establomockup.png";
+import Correctia from "../../src/assets/projects/correctia_thumbnail.png";
 
 export const getProjects = (t) => [
+  {
+    key: "correctia",
+    title: "Correctia",
+    tagline: t("projects.correctia.tagline"),
+    description: [t("projects.correctia.p1"), t("projects.correctia.p2")],
+    tech: ["SvelteKit", "Prisma", "PostgreSQL", "Stripe", "TypeScript"],
+    year: "2026",
+    image: Correctia,
+    link: "https://correctia.ai",
+  },
   {
     key: "establo",
     title: "Establo (EUSD)",
