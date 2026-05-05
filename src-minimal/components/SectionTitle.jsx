@@ -19,9 +19,9 @@ export function SectionTitle({ title, eyebrow, id }) {
     <div
       id={id}
       ref={ref}
-      className="relative h-[80vh] md:h-[120vh] border-t hairline"
+      className="relative h-[55vh] md:h-[120vh] border-t hairline"
     >
-      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+      <div className="sticky top-0 h-screen flex flex-col justify-start md:justify-center pt-[18vh] md:pt-0 overflow-hidden">
         {eyebrow && (
           <div className="px-5 md:px-16 max-w-[1400px] mx-auto w-full mb-4 md:mb-6">
             <p className="font-mono text-[10px] md:text-xs text-[var(--ink-muted)]">

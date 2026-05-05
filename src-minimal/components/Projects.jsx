@@ -27,7 +27,7 @@ function ProjectRow({ project, t }) {
       </a>
 
       <div className="border-y border-white/30 bg-[var(--bg)] flex items-stretch">
-        <div className="shrink-0 px-4 md:px-6 flex items-center border-r border-white/30">
+        <div className="hidden md:flex shrink-0 px-4 md:px-6 items-center border-r border-white/30">
           <span className="font-mono text-xs md:text-sm font-bold tracking-wider uppercase whitespace-nowrap text-[var(--ink)]">
             {t("projects.builtWith")}
           </span>
@@ -48,9 +48,13 @@ function ProjectRow({ project, t }) {
           href={project.link}
           target="_blank"
           rel="noreferrer"
-          className="shrink-0 px-4 md:px-6 flex items-center border-l border-white/30 whitespace-nowrap font-mono text-xs md:text-sm font-bold bg-[var(--ink)] text-[var(--bg)] hover:bg-[var(--bg)] hover:text-[var(--ink)] transition-colors"
+          aria-label={t("projects.viewProject")}
+          className="shrink-0 px-3 md:px-6 flex items-center gap-2 border-l border-white/30 whitespace-nowrap font-mono text-xs md:text-sm font-bold bg-[var(--ink)] text-[var(--bg)] hover:bg-[var(--bg)] hover:text-[var(--ink)] transition-colors"
         >
-          {t("projects.viewProject")}
+          <span className="hidden md:inline">{t("projects.viewProject")}</span>
+          <svg className="md:hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
         </a>
       </div>
 
